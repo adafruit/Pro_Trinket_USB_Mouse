@@ -1,3 +1,5 @@
+# Adafruit Pro Trinket USB Mouse Library [![Build Status](https://github.com/adafruit/Pro_Trinket_USB_Mouse_Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Pro_Trinket_USB_Mouse_Library/actions)
+
 ProTrinketMouse is Adafruit's Pro Trinket USB HID Arduino Library
 
 ProTrinketMouse allows the user to implement a simple USB Mouse using an Adafruit Pro Trinket (ATmega 328P based)

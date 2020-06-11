@@ -1,5 +1,6 @@
 /*
-this file's purpose is to trick the Arduino IDE into including a file for compilation
+this file's purpose is to trick the Arduino IDE into including a file for
+compilation
 
 Copyright (c) 2013 Adafruit Industries
 All rights reserved.
