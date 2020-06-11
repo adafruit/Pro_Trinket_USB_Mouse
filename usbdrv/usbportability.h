@@ -64,7 +64,9 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 #define _BV(x) (1 << (x))
 
 /* assembler compatibility macros */
-#define nop2 rjmp $ + 2 /* jump to next instruction */
+// clang-format off
+#define nop2    rjmp    $+2 /* jump to next instruction */
+// clang-format on
 #define XL r26
 #define XH r27
 #define YL r28
@@ -91,8 +93,8 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 
 /* #define F_CPU   _MCU_CLOCK_FREQUENCY_    seems to be defined automatically */
 
-#include <delay.h>
 #include <io.h>
+#include <delay.h>
 
 #define __attribute__(arg) /* not supported on IAR */
 
@@ -114,15 +116,19 @@ static inline void sei(void) {
 
 #define macro .macro
 #define endm .endmacro
-#define nop2 rjmp.+ 0 /* jump to next instruction */
+// clang-format off
+#define nop2    rjmp    .+0 /* jump to next instruction */
+// clang-format on
 
 /* ------------------------------------------------------------------------- */
-#else                 /* default development environment is avr-gcc/avr-libc */
+#else /* default development environment is avr-gcc/avr-libc */
 /* ------------------------------------------------------------------------- */
 
 #include <avr/io.h>
 #ifdef __ASSEMBLER__
-#define _VECTOR(N) __vector_##N /* io.h does not define this for asm */
+// clang-format off
+#   define _VECTOR(N)   __vector_ ## N   /* io.h does not define this for asm */
+// clang-format on
 #else
 #include <avr/pgmspace.h>
 #endif
@@ -136,7 +142,9 @@ static inline void sei(void) {
 
 #define macro .macro
 #define endm .endm
-#define nop2 rjmp.+ 0 /* jump to next instruction */
+// clang-format off
+#define nop2    rjmp    .+0 /* jump to next instruction */
+// clang-format on
 
 #endif /* development environment */
 
