@@ -93,8 +93,8 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 
 /* #define F_CPU   _MCU_CLOCK_FREQUENCY_    seems to be defined automatically */
 
-#include <io.h>
 #include <delay.h>
+#include <io.h>
 
 #define __attribute__(arg) /* not supported on IAR */
 
