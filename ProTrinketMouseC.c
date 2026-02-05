@@ -21,14 +21,16 @@ License along with ProTrinketMouse. If not, see
 */
 
 #include "ProTrinketMouseC.h"
-#include "cmdline_defs.h"
-#include "usbconfig.h"
-#include "usbdrv/usbdrv.h"
+
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/power.h>
 #include <stdint.h>
 #include <util/delay.h>
+
+#include "cmdline_defs.h"
+#include "usbconfig.h"
+#include "usbdrv/usbdrv.h"
 
 uint8_t report_buffer[4];
 char usb_hasCommed = 0;
@@ -50,14 +52,16 @@ void usbBegin() {
   sei();
 }
 
-void usbPollWrapper() { usbPoll(); }
+void usbPollWrapper() {
+  usbPoll();
+}
 
 void usbReportSend() {
   // perform usb background tasks until the report can be sent, then send it
   while (1) {
     usbPoll(); // this needs to be called at least once every 10 ms
     if (usbInterruptIsReady()) {
-      usbSetInterrupt((uint8_t *)report_buffer, 4); // send
+      usbSetInterrupt((uint8_t*)report_buffer, 4); // send
       break;
 
       // see http://vusb.wikidot.com/driver-api
@@ -106,31 +110,31 @@ usbMsgLen_t usbFunctionSetup(uint8_t data[8]) {
   usb_hasCommed = 1;
 
   // see HID1_11.pdf sect 7.2 and http://vusb.wikidot.com/driver-api
-  usbRequest_t *rq = (void *)data;
+  usbRequest_t* rq = (void*)data;
 
   if ((rq->bmRequestType & USBRQ_TYPE_MASK) != USBRQ_TYPE_CLASS)
     return 0; // ignore request if it's not a class specific request
 
   // see HID1_11.pdf sect 7.2
   switch (rq->bRequest) {
-  case USBRQ_HID_GET_IDLE:
-    usbMsgPtr = &idle_rate; // send data starting from this byte
-    return 1;               // send 1 byte
-  case USBRQ_HID_SET_IDLE:
-    idle_rate = rq->wValue.bytes[1]; // read in idle rate
-    return 0;                        // send nothing
-  case USBRQ_HID_GET_PROTOCOL:
-    usbMsgPtr = &protocol_version; // send data starting from this byte
-    return 1;                      // send 1 byte
-  case USBRQ_HID_SET_PROTOCOL:
-    protocol_version = rq->wValue.bytes[1];
-    return 0; // send nothing
-  case USBRQ_HID_GET_REPORT:
-    usbMsgPtr = (uint8_t *)report_buffer; // send the report data
-    return 3;
-  case USBRQ_HID_SET_REPORT:
-    return 0; // send nothing, mouses don't do this
-  default:    // do not understand data, ignore
-    return 0; // send nothing
+    case USBRQ_HID_GET_IDLE:
+      usbMsgPtr = &idle_rate; // send data starting from this byte
+      return 1;               // send 1 byte
+    case USBRQ_HID_SET_IDLE:
+      idle_rate = rq->wValue.bytes[1]; // read in idle rate
+      return 0;                        // send nothing
+    case USBRQ_HID_GET_PROTOCOL:
+      usbMsgPtr = &protocol_version; // send data starting from this byte
+      return 1;                      // send 1 byte
+    case USBRQ_HID_SET_PROTOCOL:
+      protocol_version = rq->wValue.bytes[1];
+      return 0; // send nothing
+    case USBRQ_HID_GET_REPORT:
+      usbMsgPtr = (uint8_t*)report_buffer; // send the report data
+      return 3;
+    case USBRQ_HID_SET_REPORT:
+      return 0; // send nothing, mouses don't do this
+    default:    // do not understand data, ignore
+      return 0; // send nothing
   }
 }
