@@ -38,8 +38,8 @@ extern "C" {
 #define MOUSEBTN_MIDDLE_MASK 0x04
 
 class Trinket_Mouse {
-private:
-public:
+ private:
+ public:
   Trinket_Mouse(); // empty constructor, ignore me
   void begin();    // starts the USB driver, causes re-enumeration
   void move(signed char x, signed char y, signed char wheel,

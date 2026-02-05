@@ -21,12 +21,13 @@ License along with ProTrinketMouse. If not, see
 */
 
 #include "ProTrinketMouse.h"
-#include "ProTrinketMouseC.h"
-#include "cmdline_defs.h"
 
 #include <avr/interrupt.h>
 #include <stdint.h>
 #include <util/delay.h>
+
+#include "ProTrinketMouseC.h"
+#include "cmdline_defs.h"
 
 // create an instance that the user can use
 Trinket_Mouse TrinketMouse;
@@ -37,15 +38,17 @@ Trinket_Mouse::Trinket_Mouse() {
 }
 
 // starts the USB driver, causes re-enumeration
-void Trinket_Mouse::begin() { usbBegin(); }
+void Trinket_Mouse::begin() {
+  usbBegin();
+}
 
 // makes a mouse movement, must be called at least once every 10ms, even if no
 // movement
 
 void Trinket_Mouse::move(signed char x, signed char y, signed char wheel,
                          uint8_t buttonMask) {
-  signed char *signed_ptr =
-      (signed char *)report_buffer; // this converts signed to unsigned
+  signed char* signed_ptr =
+      (signed char*)report_buffer; // this converts signed to unsigned
 
   // format the report structure
   signed_ptr[1] = x;
@@ -57,4 +60,6 @@ void Trinket_Mouse::move(signed char x, signed char y, signed char wheel,
 }
 
 // checks if USB is connected, 0 if not connected
-char Trinket_Mouse::isConnected() { return usb_hasCommed; }
+char Trinket_Mouse::isConnected() {
+  return usb_hasCommed;
+}
