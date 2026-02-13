@@ -27,7 +27,7 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 /* We check explicitly for IAR and CodeVision. Default is avr-gcc/avr-libc. */
 
 /* ------------------------------------------------------------------------- */
-#if defined __IAR_SYSTEMS_ICC__ ||                                             \
+#if defined __IAR_SYSTEMS_ICC__ || \
     defined __IAR_SYSTEMS_ASM__ /* check for IAR */
 /* ------------------------------------------------------------------------- */
 
@@ -53,7 +53,7 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 #define PROGMEM __flash
 #endif
 
-#define USB_READ_FLASH(addr) (*(PROGMEM char *)(addr))
+#define USB_READ_FLASH(addr) (*(PROGMEM char*)(addr))
 
 /* The following definitions are not needed by the driver, but may be of some
  * help if you port a gcc based project to IAR.
@@ -74,8 +74,8 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 #define ZL r30
 #define ZH r31
 #define lo8(x) LOW(x)
-#define hi8(x)                                                                 \
-  (((x) >> 8) & 0xff) /* not HIGH to allow XLINK to make a proper range check  \
+#define hi8(x)                                                                \
+  (((x) >> 8) & 0xff) /* not HIGH to allow XLINK to make a proper range check \
                        */
 
 /* Depending on the device you use, you may get problems with the way usbdrv.h
@@ -99,7 +99,7 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 #define __attribute__(arg) /* not supported on IAR */
 
 #define PROGMEM __flash
-#define USB_READ_FLASH(addr) (*(PROGMEM char *)(addr))
+#define USB_READ_FLASH(addr) (*(PROGMEM char*)(addr))
 
 #ifndef __ASSEMBLER__
 static inline void cli(void) {
@@ -111,7 +111,7 @@ static inline void sei(void) {
 #endif
 #define _delay_ms(t) delay_ms(t)
 #define _BV(x) (1 << (x))
-#define USB_CFG_USE_SWITCH_STATEMENT                                           \
+#define USB_CFG_USE_SWITCH_STATEMENT \
   1 /* macro for if() cascase fails for unknown reason */
 
 #define macro .macro
@@ -134,7 +134,7 @@ static inline void sei(void) {
 #endif
 
 #if USB_CFG_DRIVER_FLASH_PAGE
-#define USB_READ_FLASH(addr)                                                   \
+#define USB_READ_FLASH(addr) \
   pgm_read_byte_far(((long)USB_CFG_DRIVER_FLASH_PAGE << 16) | (long)(addr))
 #else
 #define USB_READ_FLASH(addr) pgm_read_byte(addr)
